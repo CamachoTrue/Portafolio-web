@@ -1,18 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
   <link rel="stylesheet" href="css/style.css">
+  <title>Dashboard</title>
 </head>
 <body>
-  <div class="container">
-    <h2>Welcome</h2>
-    <button onclick="logout()">Logout</button>
 
-    <h3>Your Projects</h3>
-    <div id="projects"></div>
+  <div class="sidebar">
+    <h2>Dashboard</h2>
+    <button onclick="openCreate()">New Project</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="main">
+    <div class="titlebar">
+      <h1>Your Projects</h1>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Repository</th>
+          <th>Technologies</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="projectsTable"></tbody>
+    </table>
+  </div>
+
+  <div class="modal-bg" id="modalCreate">
+    <div class="modal">
+      <h3>New Project</h3>
+      <input id="cTitle" placeholder="Title">
+      <textarea id="cDesc" placeholder="Description"></textarea>
+      <input id="cRepo" placeholder="Repository">
+      <input id="cTech" placeholder="Technologies (comma separated)">
+      <button onclick="createProject()">Save</button>
+    </div>
+  </div>
+
+  <div class="modal-bg" id="modalEdit">
+    <div class="modal">
+      <h3>Edit Project</h3>
+      <input id="eTitle">
+      <textarea id="eDesc"></textarea>
+      <input id="eRepo">
+      <input id="eTech">
+      <button onclick="updateProject()">Update</button>
+    </div>
   </div>
 
   <script src="js/main.js"></script>
