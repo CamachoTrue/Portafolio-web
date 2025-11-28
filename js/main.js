@@ -69,8 +69,16 @@ async function loadProjects() {
       <td>${p.description}</td>
       <td>${p.repository || ""}</td>
       <td>${Array.isArray(p.technologies) ? p.technologies.join(", ") : ""}</td>
+      <td>${p.images && p.images.length > 0 ? `<img src="${p.images[0]}" class="thumb">` : ""}</td>
       <td class="actions">
-        <button class="edit" onclick="openEdit('${p._id}', '${p.title}', '${p.description}', '${p.repository}', '${(p.technologies || []).join(", ")}')">Edit</button>
+        <button class="edit" onclick="openEdit(
+          '${p._id}',
+          '${p.title}',
+          '${p.description}',
+          '${p.repository}',
+          '${(p.technologies || []).join(", ")}',
+          '${p.images && p.images.length > 0 ? p.images[0] : ""}'
+        )">Edit</button>
         <button class="delete" onclick="deleteProject('${p._id}')">Delete</button>
       </td>
     `;
@@ -83,12 +91,13 @@ function openCreate() {
   document.getElementById("modalCreate").style.display = "flex";
 }
 
-function openEdit(id, t, d, r, tech) {
+function openEdit(id, t, d, r, tech, img) {
   editId = id;
   document.getElementById("eTitle").value = t;
   document.getElementById("eDesc").value = d;
   document.getElementById("eRepo").value = r;
   document.getElementById("eTech").value = tech;
+  document.getElementById("eImage").value = img || "";
   document.getElementById("modalEdit").style.display = "flex";
 }
 
@@ -98,7 +107,10 @@ async function createProject() {
   const title = document.getElementById("cTitle").value;
   const description = document.getElementById("cDesc").value;
   const repository = document.getElementById("cRepo").value;
+  const image = document.getElementById("cImage").value.trim();
   const technologies = document.getElementById("cTech").value.split(",").map(x => x.trim());
+
+  const images = image ? [image] : [];
 
   const res = await fetch(API + "/projects", {
     method: "POST",
@@ -106,7 +118,7 @@ async function createProject() {
       "Content-Type": "application/json",
       "auth-token": token
     },
-    body: JSON.stringify({title, description, repository, technologies})
+    body: JSON.stringify({title, description, repository, technologies, images})
   });
 
   if (res.ok) {
@@ -124,7 +136,10 @@ async function updateProject() {
   const title = document.getElementById("eTitle").value;
   const description = document.getElementById("eDesc").value;
   const repository = document.getElementById("eRepo").value;
+  const image = document.getElementById("eImage").value.trim();
   const technologies = document.getElementById("eTech").value.split(",").map(x => x.trim());
+
+  const images = image ? [image] : [];
 
   const res = await fetch(API + "/projects/" + editId, {
     method: "PUT",
@@ -132,7 +147,7 @@ async function updateProject() {
       "Content-Type": "application/json",
       "auth-token": token
     },
-    body: JSON.stringify({title, description, repository, technologies})
+    body: JSON.stringify({title, description, repository, technologies, images})
   });
 
   if (res.ok) {

@@ -118,6 +118,17 @@ th {
   background: #b71c1c;
 }
 
+.thumb {
+  width: 180px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  background: #222;
+}
+
 .modal-bg {
   position: fixed;
   top: 0;
