@@ -67,7 +67,12 @@ async function loadProjects() {
     tr.innerHTML = `
       <td>${p.title}</td>
       <td>${p.description}</td>
-      <td>${p.repository || ""}</td>
+      <td>
+        ${p.repository ? `
+          <button class="repo-btn" onclick="window.open('${p.repository}', '_blank')">Ver pagina</button>
+          <button class="repo-btn copy-btn" onclick="copyRepo('${p.repository}')">Copiar URL</button>
+        ` : ""}
+      </td>
       <td>${Array.isArray(p.technologies) ? p.technologies.join(", ") : ""}</td>
       <td>${p.images && p.images.length > 0 ? `<img src="${p.images[0]}" class="thumb">` : ""}</td>
       <td class="actions">
@@ -179,3 +184,8 @@ document.addEventListener("click", e => {
     e.target.style.display = "none";
   }
 });
+
+function copyRepo(url) {
+  navigator.clipboard.writeText(url);
+  alert("URL copiada");
+}
